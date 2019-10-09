@@ -1,34 +1,40 @@
 files = []
 hours = []
+test = []
 ihours = {}
 iminutes = {}
 minutes = []
 i_files = 0
-# time_re = /\d{2}:\d{2}/
-init = /(?<hours>\d{2})\:(?<minutes>\d{2})/
+time_regex = /(?<hours>\d{2})\:(?<minutes>\d{2})/
 
+# Percorre todos os arquivos passados como argumento na linha de comando
 ARGV.each do|a|
   i = 0
   files[i_files] = a
   file = "assets/#{a}"
   content_file = File.open(file)
+
+  # Percorre todas as linhas do arquivo de entrada para extrair os horários no formato hh:mm
   while ! content_file.eof?
     line = content_file.gets.chomp
-    if init.match(line)
-      hours[i] = init.match(line)[:hours]
-      minutes[i] = init.match(line)[:minutes]
+    if time_regex.match(line)
+      hours[i] = time_regex.match(line)[:hours]
+      minutes[i] = time_regex.match(line)[:minutes]
+      test.push(hours[i] + ":" + minutes[i])
       i+=1
     end
-
   end
-  ihours["#{i_files}"] = "#{hours}"
-  iminutes["#{i_files}"] = "#{minutes}"
+
+  # ihours["#{i_files}"] = "#{hours}"
+  # iminutes["#{i_files}"] = "#{minutes}"
   content_file.close
   i_files+=1
 end
-i_files = 0
 
 puts "REPORT:"
+i_files = 0
+
+# Mostra o nome dos arquivos lidos e o total de horas de cada um
 files.each do |fls|
   print "#{fls} "
   print "#{ihours["#{i_files}"]}"
