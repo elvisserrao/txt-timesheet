@@ -3,7 +3,6 @@ time_regex = /(?<hours>\d{2})\:(?<minutes>\d{2})/
 puts "REPORT:"
 #### Percorre todos os arquivos na linha de comando
 ARGV.each do|a|
-
   sum_time = 0
   i = 0
   files = a
@@ -12,7 +11,6 @@ ARGV.each do|a|
   i_count = 0
   time = []
   time_to_min = []
-
 
   ### Percorre todas as linhas do arquivo de entrada para extrair os horários no formato hh:mm
   while ! content_file.eof?
@@ -24,22 +22,19 @@ ARGV.each do|a|
       i+=1
     end
   end
-  ###
-
-
   i_count = time.count - i_count # Conta quantas registros tem em cada arquivo
   content_file.close
+  ###
 
+  ### itera pelo array de strings e converte para inteiros
   i = 0
   inteiro = []
-  ### itera pelo array de strings e converte para inteiros
   i_parse_int = i_count * 2
   time.each do |a|
     a =  a.split(":")
     a.each do |b|
       inteiro.push(b.to_i)
     end
-
   end
   ###
 
@@ -73,8 +68,10 @@ ARGV.each do|a|
     minutes = "0#{minutes}"
   end
   ##
+  
   time_final = "#{hours}:#{minutes}"
   print "#{files}: #{time_final} hours\n"
   ###
+
 end
 ####
