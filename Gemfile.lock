@@ -1,0 +1,12 @@
+GEM
+  specs:
+    txt_timesheet (0.0.1)
+
+PLATFORMS
+  x64-mingw32
+
+DEPENDENCIES
+  txt_timesheet
+
+BUNDLED WITH
+   2.1.0.pre.2
