@@ -1,20 +1,20 @@
-files = []
-i_files = 0
 time_regex = /(?<hours>\d{2})\:(?<minutes>\d{2})/
 
-# Percorre todos os arquivos na linha de comando
+puts "REPORT:"
+#### Percorre todos os arquivos na linha de comando
 ARGV.each do|a|
 
+  sum_time = 0
   i = 0
-  files[i_files] = a
+  files = a
   file = "../assets/#{a}"
   content_file = File.open(file)
   i_count = 0
   time = []
-  sum_time = []
+  time_to_min = []
 
 
-  # Percorre todas as linhas do arquivo de entrada para extrair os horários no formato hh:mm
+  ### Percorre todas as linhas do arquivo de entrada para extrair os horários no formato hh:mm
   while ! content_file.eof?
     line = content_file.gets.chomp
     if time_regex.match(line)
@@ -24,18 +24,16 @@ ARGV.each do|a|
       i+=1
     end
   end
-
+  ###
 
 
   i_count = time.count - i_count # Conta quantas registros tem em cada arquivo
   content_file.close
-  i_files+=1
 
-  puts time.inspect
   i = 0
   inteiro = []
-  # itera pelo array de strings e converte para inteiros
-  i_count= i_count * 2
+  ### itera pelo array de strings e converte para inteiros
+  i_parse_int = i_count * 2
   time.each do |a|
     a =  a.split(":")
     a.each do |b|
@@ -43,27 +41,40 @@ ARGV.each do|a|
     end
 
   end
-  while i < i_count
+  ###
+
+  ### Converte cada horário para minutos
+  while i < i_parse_int
     hrs = inteiro[i]
     hrs = hrs * 60
     hrs = hrs + inteiro[i+1]
-    sum_time.push(hrs)
+    time_to_min.push(hrs)
     i+=2
-    puts hrs.inspect
   end
-  # puts inteiro.inspect
-  # puts sum_time.inspect
+  ###
+
+  ### Calcula o tempo trabalhado em minutos
+  i = 0
+  while i < i_count
+    sum_time = time_to_min[i+1] - time_to_min[i] + sum_time
+    i+=2
+  end
+  ###
+
+  ### Converte o tempo trabalhado para o formato hh:mm
+  hours = sum_time/60
+  hours = hours.to_i
+  minutes = sum_time - hours * 60
+  ## Adiciona o 0 para manter o padrão de 2 algarismos do padrão hh:mm
+  if hours < 10
+    hours = "0#{hours}"
+  end
+  if minutes < 10
+    minutes = "0#{minutes}"
+  end
+  ##
+  time_final = "#{hours}:#{minutes}"
+  print "#{files}: #{time_final} hours\n"
+  ###
 end
-
-
-
-puts "REPORT:"
-i_files = 0
-
-#
-# Mostra o nome dos arquivos lidos e o total de horas de cada um
-#
-files.each do |fls|
-  print "#{fls } \n"
-  i_files+=1
-end
+####
