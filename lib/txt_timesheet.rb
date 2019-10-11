@@ -10,7 +10,8 @@ ARGV.each do|a|
   file = "../assets/#{a}"
   content_file = File.open(file)
   i_count = 0
-  test = []
+  time = []
+  sum_time = []
 
 
   # Percorre todas as linhas do arquivo de entrada para extrair os horários no formato hh:mm
@@ -19,33 +20,40 @@ ARGV.each do|a|
     if time_regex.match(line)
       hours = time_regex.match(line)[:hours]
       minutes = time_regex.match(line)[:minutes]
-      test.push(hours + ":" + minutes)
+      time.push(hours + ":" + minutes)
       i+=1
     end
   end
 
 
 
-  i_count = test.count - i_count
-  puts i_count
+  i_count = time.count - i_count # Conta quantas registros tem em cada arquivo
   content_file.close
   i_files+=1
 
-
+  puts time.inspect
+  i = 0
+  inteiro = []
   # itera pelo array de strings e converte para inteiros
-  test.each do |a|
+  i_count= i_count * 2
+  time.each do |a|
     a =  a.split(":")
-    i=0
-    inteiro = []
     a.each do |b|
-      inteiro[i] = b.to_i
-      i+=1
+      inteiro.push(b.to_i)
     end
-  puts inteiro.inspect
+
   end
-
+  while i < i_count
+    hrs = inteiro[i]
+    hrs = hrs * 60
+    hrs = hrs + inteiro[i+1]
+    sum_time.push(hrs)
+    i+=2
+    puts hrs.inspect
+  end
+  # puts inteiro.inspect
+  # puts sum_time.inspect
 end
-
 
 
 
