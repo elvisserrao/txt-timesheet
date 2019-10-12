@@ -1,8 +1,0 @@
-## Timesheet
-
-morning: 09:13
-brb lunch: 12:03
-back: 13:56
-leaving: 20:53
-
-## What Happened?

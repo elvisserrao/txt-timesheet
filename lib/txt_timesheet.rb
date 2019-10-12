@@ -1,14 +1,15 @@
 class Txt_timesheet
   def run
     time_regex = /(?<hours>\d{2})\:(?<minutes>\d{2})/
+    total_time = 0
 
     puts "REPORT:"
-#### Percorre todos os arquivos na linha de comando
-    ARGV.each do|a|
+  #### Percorre todos os arquivos na linha de comando
+    ARGV.each do |a|
       sum_time = 0
       i = 0
       files = a
-      file = "#{a}"
+      file = "assets/#{a}"
       content_file = File.open(file)
       i_count = 0
       time = []
@@ -71,11 +72,22 @@ class Txt_timesheet
       end
       ##
 
-      time_final = "#{hours}:#{minutes}"
-      print "#{files}: #{time_final} hours\n"
+      time_file = "#{hours}:#{minutes}"
+      print "#{files}: #{time_file} hours\n"
       ###
 
+      total_time += sum_time # Acumulates the worked time of each file
+
     end
+
+    ### Converts the total worked time
+    hours = total_time/60
+    hours = hours.to_i
+    minutes = total_time - hours * 60
+    puts "Total Hours: #{hours}:#{minutes} hours"
+    ###
+
+
     ####
   end
 end
