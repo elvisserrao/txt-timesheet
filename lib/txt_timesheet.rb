@@ -1,4 +1,24 @@
 class Txt_timesheet
+
+  def convert (par)
+    ### Converte o tempo trabalhado para o formato hh:mm
+    hours = par/60
+    hours = hours.to_i
+    minutes = par - hours * 60
+    ## Adiciona o 0 para manter o padrão de 2 algarismos do padrão hh:mm
+    if hours < 10
+      hours = "0#{hours}"
+    end
+    if minutes < 10
+      minutes = "0#{minutes}"
+    end
+
+    time = "#{hours}:#{minutes}"
+
+    return time
+
+  end
+
   def run
     time_regex = /(?<hours>\d{2})\:(?<minutes>\d{2})/
     total_time = 0
@@ -59,20 +79,7 @@ class Txt_timesheet
       end
       ###
 
-      ### Converte o tempo trabalhado para o formato hh:mm
-      hours = sum_time/60
-      hours = hours.to_i
-      minutes = sum_time - hours * 60
-      ## Adiciona o 0 para manter o padrão de 2 algarismos do padrão hh:mm
-      if hours < 10
-        hours = "0#{hours}"
-      end
-      if minutes < 10
-        minutes = "0#{minutes}"
-      end
-      ##
-
-      time_file = "#{hours}:#{minutes}"
+      time_file = convert(sum_time)
       print "#{files}: #{time_file} hours\n"
       ###
 
@@ -80,11 +87,12 @@ class Txt_timesheet
 
     end
 
+    time_file = convert(total_time)
     ### Converts the total worked time
     hours = total_time/60
     hours = hours.to_i
     minutes = total_time - hours * 60
-    puts "Total Hours: #{hours}:#{minutes} hours"
+    puts "Total Hours: #{time_file} hours\n"
     ###
 
 
