@@ -2,7 +2,7 @@ require_relative 'lib/txt_timesheet/version'
 
 Gem::Specification.new do |spec|
   spec.name          = "txt_timesheet"
-  spec.version       = "1.1.1"
+  spec.version       = "1.1.2"
   spec.authors       = ["Elvis Serrão"]
   spec.email         = ["elvis.serrao1@gmail.com"]
 
