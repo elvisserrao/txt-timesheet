@@ -1,6 +1,6 @@
 
 
-Txt-timesheet
+Txt-timesheet [![Gem Version](https://badge.fury.io/rb/txt_timesheet.svg)](https://badge.fury.io/rb/txt_timesheet)
 ====================
 
 Timesheet calculator for .txt files.

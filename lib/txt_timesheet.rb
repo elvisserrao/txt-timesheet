@@ -88,10 +88,7 @@ class Txt_timesheet
     end
 
     time_file = convert(total_time)
-    ### Converts the total worked time
-    hours = total_time/60
-    hours = hours.to_i
-    minutes = total_time - hours * 60
+
     puts "Total Hours: #{time_file} hours\n"
     ###
 
