@@ -30,7 +30,7 @@ In your timesheet.rb file:
    
     require 'txt_timesheet'
     
-    timesheetObject = Txt_timesheet.new
+    timesheetObject = TxtTimesheet.new
     
     timesheetObject.run
     
