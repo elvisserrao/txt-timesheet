@@ -1,30 +1,27 @@
-class Txt_timesheet
+# frozen_string_literal: true
 
-  def convert (par)
+# Trata arquivos passados como parametro e calcula o total de horas trabalhadas
+class TxtTimesheet
+  def convert(par)
     ### Converte o tempo trabalhado para o formato hh:mm
-    hours = par/60
+    hours = par / 60
     hours = hours.to_i
     minutes = par - hours * 60
-    ## Adiciona o 0 para manter o padrão de 2 algarismos do padrão hh:mm
-    if hours < 10
-      hours = "0#{hours}"
-    end
-    if minutes < 10
-      minutes = "0#{minutes}"
-    end
+    ## Adiciona o 0 para manter o formato hh:mm
+    hours = "0#{hours}" if hours < 10
+    minutes = "0#{minutes}" if minutes < 10
 
     time = "#{hours}:#{minutes}"
 
-    return time
-
+    time
   end
 
   def run
     time_regex = /(?<hours>\d{2})\:(?<minutes>\d{2})/
     total_time = 0
 
-    puts "REPORT:"
-  #### Percorre todos os arquivos na linha de comando
+    puts 'REPORT:'
+    #### Percorre todos os arquivos na linha de comando
     ARGV.each do |a|
       sum_time = 0
       i = 0
@@ -35,17 +32,17 @@ class Txt_timesheet
       time = []
       time_to_min = []
 
-      ### Percorre todas as linhas do arquivo de entrada para extrair os horários no formato hh:mm
-      while ! content_file.eof?
+      ### Percorre todas as linhas do arquivo de entrada para extrair os dados
+      until content_file.eof?
         line = content_file.gets.chomp
-        if time_regex.match(line)
-          hours = time_regex.match(line)[:hours]
-          minutes = time_regex.match(line)[:minutes]
-          time.push(hours + ":" + minutes)
-          i+=1
-        end
+        next unless time_regex.match(line)
+
+        hours = time_regex.match(line)[:hours]
+        minutes = time_regex.match(line)[:minutes]
+        time.push(hours + ':' + minutes)
+        i += 1
       end
-      i_count = time.count - i_count # Conta quantas registros tem em cada arquivo
+      i_count = time.count - i_count # Conta registros em cada arquivo
       content_file.close
       ###
 
@@ -54,28 +51,28 @@ class Txt_timesheet
       inteiro = []
       i_parse_int = i_count * 2
       time.each do |a|
-        a =  a.split(":")
+        a = a.split(':')
         a.each do |b|
           inteiro.push(b.to_i)
         end
       end
       ###
 
-      ### Converte cada horário para minutos
+      ### Converte para minutos
       while i < i_parse_int
         hrs = inteiro[i]
-        hrs = hrs * 60
-        hrs = hrs + inteiro[i+1]
+        hrs *= 60
+        hrs += inteiro[i + 1]
         time_to_min.push(hrs)
-        i+=2
+        i += 2
       end
       ###
 
       ### Calcula o tempo trabalhado em minutos
       i = 0
       while i < i_count
-        sum_time = time_to_min[i+1] - time_to_min[i] + sum_time
-        i+=2
+        sum_time = time_to_min[i + 1] - time_to_min[i] + sum_time
+        i += 2
       end
       ###
 
@@ -84,14 +81,12 @@ class Txt_timesheet
       ###
 
       total_time += sum_time # Acumulates the worked time of each file
-
     end
 
     time_file = convert(total_time)
 
     puts "Total Hours: #{time_file} hours\n"
     ###
-
 
     ####
   end
