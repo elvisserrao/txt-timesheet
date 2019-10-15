@@ -9,8 +9,61 @@ Installation
 ------------
 	gem install txt_timesheet
 
+How it works
+------------
+
+Given 3 files like these
+
+`file1.txt`: 
+
+
+    ## Timesheet
+    
+    morning: 09:13
+    brb lunch: 12:03
+    back: 13:56
+    leaving: 20:53
+    
+    ## What Happened?
+    
+
+`file2.txt`: 
+
+    ## Timesheet
+
+    morning: 09:59
+    brb lunch: 12:07
+    back: 13:40
+    brb: 18:41
+    back: 20:53
+    leaving: 22:53
+    
+    ## Daily report
+    
+    Leaving:
+
+`file3.txt`:
+
+    ## Timesheet
+    
+    morning: 09:45
+    brb lunch: 12:28
+    back: 13:31
+    brb: 18:07
+    back: 23:11
+    leaving: 23:11
+    
+    ## Daily report
+    
+    Leaving:
+    - syncs with Flávia, and with Iago and Arthur
+    - started working on CRM side to create user with password in authenticator
+
+
+
 How to use
 ------------
+
 Create a file named timesheet.rb on your root folder.
 
     $ touch timesheet.rb
