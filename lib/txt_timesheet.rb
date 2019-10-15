@@ -72,7 +72,7 @@ class TxtTimesheet
       index = 0
       while index < input_count
         sum_time = time_in_min[index + 1] - time_in_min[index] + sum_time
-        i += 2
+        index += 2
       end
       ###
 
