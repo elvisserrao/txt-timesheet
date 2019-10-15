@@ -2,3 +2,4 @@
 .idea/
 *.gem
 assets/
+*.txt
