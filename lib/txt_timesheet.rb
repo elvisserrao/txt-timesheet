@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
-# Trata arquivos passados como parametro e calcula o total de horas trabalhadas
+# Treat past files as a parameter and calculate total hours worked
 class TxtTimesheet
   def convert(par)
-    ### Converte o tempo trabalhado para o formato hh:mm
+    ### Convert working time to hh:mm format
     hours = par / 60
     hours = hours.to_i
     minutes = par - hours * 60
-    ## Adiciona o 0 para manter o formato hh:mm
+    ## Add 0 to keep hh: mm format
     hours = "0#{hours}" if hours < 10
     minutes = "0#{minutes}" if minutes < 10
 
@@ -21,18 +21,18 @@ class TxtTimesheet
     total_time = 0
 
     puts 'REPORT:'
-    #### Percorre todos os arquivos na linha de comando
+    #### Receive all files indicated on the command line
     ARGV.each do |a|
       sum_time = 0
-      i = 0
+      index = 0
       files = a
-      file = "assets/#{a}"
+      file = a.to_s
       content_file = File.open(file)
-      i_count = 0
+      input_count = 0
       time = []
-      time_to_min = []
+      time_in_min = []
 
-      ### Percorre todas as linhas do arquivo de entrada para extrair os dados
+      ### Read all lines from the input file to extract data
       until content_file.eof?
         line = content_file.gets.chomp
         next unless time_regex.match(line)
@@ -40,39 +40,39 @@ class TxtTimesheet
         hours = time_regex.match(line)[:hours]
         minutes = time_regex.match(line)[:minutes]
         time.push(hours + ':' + minutes)
-        i += 1
+        index += 1
       end
-      i_count = time.count - i_count # Conta registros em cada arquivo
+      input_count = time.count - input_count # count records in each file
       content_file.close
       ###
 
-      ### itera pelo array de strings e converte para inteiros
-      i = 0
-      inteiro = []
-      i_parse_int = i_count * 2
-      time.each do |a|
-        a = a.split(':')
-        a.each do |b|
-          inteiro.push(b.to_i)
+      ### iterates over string array and converts to integers
+      index = 0
+      integer = []
+      i_parse_int = input_count * 2
+      time.each do |entry_time|
+        entry_time = entry_time.split(':')
+        entry_time.each do |entry_time_to_integer|
+          integer.push(entry_time_to_integer.to_i)
         end
       end
       ###
 
-      ### Converte para minutos
-      while i < i_parse_int
-        hrs = inteiro[i]
-        hrs *= 60
-        hrs += inteiro[i + 1]
-        time_to_min.push(hrs)
-        i += 2
+      ### Converts to minutes
+      while index < i_parse_int
+        time_to_min = integer[index]
+        time_to_min *= 60
+        time_to_min += integer[index + 1]
+        time_in_min.push(time_to_min)
+        index += 2
       end
       ###
 
       ### Calcula o tempo trabalhado em minutos
-      i = 0
-      while i < i_count
-        sum_time = time_to_min[i + 1] - time_to_min[i] + sum_time
-        i += 2
+      index = 0
+      while index < input_count
+        sum_time = time_in_min[index + 1] - time_in_min[index] + sum_time
+        index += 2
       end
       ###
 

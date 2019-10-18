@@ -2,7 +2,7 @@ require_relative 'lib/txt_timesheet/version'
 
 Gem::Specification.new do |spec|
   spec.name          = "txt_timesheet"
-  spec.version       = "1.1.3"
+  spec.version       = "1.2.0"
   spec.authors       = ["Elvis Serrão"]
   spec.email         = ["elvis.serrao1@gmail.com"]
 
@@ -12,14 +12,18 @@ Gem::Specification.new do |spec|
   spec.license       = "MIT"
   spec.required_ruby_version = Gem::Requirement.new(">= 2.3.0")
 
-  spec.metadata["homepage_uri"] = spec.homepage
+  spec.metadata = {
+        'homepage_uri' => 'https://elvisserrao.github.io/',
+        'source_code_uri' => 'https://github.com/elvisserrao/txt-timesheet'
+  }
+
 
   # Specify which files should be added to the gem when it is released.
   # The `git ls-files -z` loads the files in the RubyGem that have been added into git.
   spec.files         = Dir.chdir(File.expand_path('..', __FILE__)) do
     `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
   end
-  spec.bindir        = "exe"
-  spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
+  spec.bindir        = "bin"
+  spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
 end
