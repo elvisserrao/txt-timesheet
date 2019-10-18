@@ -2,22 +2,17 @@
 
 # Treat past files as a parameter and calculate total hours worked
 class TxtTimesheet
-  def convert(par)
+
+  def convert(time_in_minutes)
     ### Convert working time to hh:mm format
-    hours = par / 60
-    hours = hours.to_i
-    minutes = par - hours * 60
+    hours = time_in_minutes / 60
+    minutes = time_in_minutes - hours * 60
     ## Add 0 to keep hh: mm format
-    hours = "0#{hours}" if hours < 10
-    minutes = "0#{minutes}" if minutes < 10
-
-    time = "#{hours}:#{minutes}"
-
-    time
+    "%02d:%02d" % [hours, minutes]
   end
-
+  
   def run
-    time_regex = /(?<hours>\d{2})\:(?<minutes>\d{2})/
+    time_regex = /(?<hours>\d+)\:(?<minutes>\d+)/
     total_time = 0
 
     puts 'REPORT:'
@@ -68,7 +63,7 @@ class TxtTimesheet
       end
       ###
 
-      ### Calcula o tempo trabalhado em minutos
+      ### Calculates worked time in minutes
       index = 0
       while index < input_count
         sum_time = time_in_min[index + 1] - time_in_min[index] + sum_time
