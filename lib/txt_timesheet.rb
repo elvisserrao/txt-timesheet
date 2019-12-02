@@ -3,6 +3,14 @@
 # Treat past files as a parameter and calculate total hours worked
 class TxtTimesheet
 
+  def initialize
+    @can_parse = false
+  end
+
+  def can_parse?
+    @can_parse
+  end
+
   def convert(time_in_minutes)
     ### Convert working time to hh:mm format
     hours = time_in_minutes / 60
@@ -10,7 +18,15 @@ class TxtTimesheet
     ## Add 0 to keep hh: mm format
     "%02d:%02d" % [hours, minutes]
   end
-  
+
+  def set_can_parse(line)
+    if @can_parse
+      @can_parse = false if line.start_with '## '
+    else
+      @can_parse = true if line.start_with '## Timesheet'
+    end
+  end
+
   def run
     time_regex = /(?<hours>\d+)\:(?<minutes>\d+)/
     total_time = 0
@@ -30,6 +46,10 @@ class TxtTimesheet
       ### Read all lines from the input file to extract data
       until content_file.eof?
         line = content_file.gets.chomp
+        set_can_parse(line)
+
+        next unless can_parse?
+
         next unless time_regex.match(line)
 
         hours = time_regex.match(line)[:hours]
