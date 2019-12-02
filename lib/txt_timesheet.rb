@@ -21,9 +21,15 @@ class TxtTimesheet
 
   def set_can_parse(line)
     if @can_parse
+<<<<<<< HEAD
       @can_parse = false if line.start_with '## '
     else
       @can_parse = true if line.start_with '## Timesheet'
+=======
+      @can_parse = false if line.start_with? '## '
+    else
+      @can_parse = true if line.start_with? '## Timesheet'
+>>>>>>> Set can parse state
     end
   end
 
