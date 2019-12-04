@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-
+require 'time'
 # Treat past files as a parameter and calculate total hours worked
 class TxtTimesheet
 
@@ -27,82 +27,74 @@ class TxtTimesheet
     end
   end
 
-  def run
+  def process_file(filename)
     time_regex = /(?<hours>\d+)\:(?<minutes>\d+)/
-    total_time = 0
+    sum_time = 0
+    index = 0
+    content_file = File.open(filename)
+    time = []
+    time_in_sec = []
 
-    puts 'REPORT:'
-    #### Receive all files indicated on the command line
-    ARGV.each do |a|
-      sum_time = 0
-      index = 0
-      files = a
-      file = a.to_s
-      content_file = File.open(file)
-      input_count = 0
-      time = []
-      time_in_min = []
+    ### Read all lines from the input file to extract data
+    until content_file.eof?
+      line = content_file.gets.chomp
+      set_can_parse(line)
 
-      ### Read all lines from the input file to extract data
-      until content_file.eof?
-        line = content_file.gets.chomp
-        set_can_parse(line)
+      next unless can_parse?
 
-        next unless can_parse?
+      next unless time_regex.match(line)
 
-        next unless time_regex.match(line)
-
-        hours = time_regex.match(line)[:hours]
-        minutes = time_regex.match(line)[:minutes]
-        time.push(hours + ':' + minutes)
-        index += 1
-      end
-      input_count = time.count - input_count # count records in each file
-      content_file.close
-      ###
-
-      ### iterates over string array and converts to integers
-      index = 0
-      integer = []
-      i_parse_int = input_count * 2
-      time.each do |entry_time|
-        entry_time = entry_time.split(':')
-        entry_time.each do |entry_time_to_integer|
-          integer.push(entry_time_to_integer.to_i)
-        end
-      end
-      ###
-
-      ### Converts to minutes
-      while index < i_parse_int
-        time_to_min = integer[index]
-        time_to_min *= 60
-        time_to_min += integer[index + 1]
-        time_in_min.push(time_to_min)
-        index += 2
-      end
-      ###
-
-      ### Calculates worked time in minutes
-      index = 0
-      while index < input_count
-        sum_time = time_in_min[index + 1] - time_in_min[index] + sum_time
-        index += 2
-      end
-      ###
-
-      time_file = convert(sum_time)
-      print "#{files}: #{time_file} hours\n"
-      ###
-
-      total_time += sum_time # Acumulates the worked time of each file
+      time << time_regex.match(line)
+      time_in_sec << Time.parse(time.last.to_s)
     end
 
-    time_file = convert(total_time)
+    while index < time.count
 
-    puts "Total Hours: #{time_file} hours\n"
+      sum_time = time_in_sec[index + 1] - time_in_sec[index] + sum_time
+      index +=2
+    end
     ###
+    total_sec = sum_time
 
-    ####
+    # phrase = 'xixixococo'
+
+    {
+      file_name: filename,
+      file_time: total_sec,
+      # phrase: phrase
+    }
+  end
+
+  def process_results(results=[])
+    output = []
+    total = []
+    total_time = 0
+    output << 'REPORT:'
+
+    results.each do |result|
+      file_name = result[:file_name]
+      time_file = result[:file_time]
+      total_time += time_file
+      # phrase = result[:phrase]
+      time_file = Time.at(time_file).utc
+      output << "#{file_name}: #{time_file.strftime("%H:%M")} hours \n"
+
+      # total_time = result[:file_time]
+    end
+    total = total_time.divmod(3600)
+    total[1] /= 60
+    total[1] = total.last.to_i
+    output << "Total Hours: #{total.join(":")} hours\n"
+
+    output
+  end
+
+  def run
+    results = []
+    ARGV.each do |arg|
+      results << process_file(arg)
+    end
+    output = process_results(results)
+    puts output.join "\n"
   end
 end
