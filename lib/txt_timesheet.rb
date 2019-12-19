@@ -1,8 +1,8 @@
 # frozen_string_literal: true
+
 require 'time'
 # Treat past files as a parameter and calculate total hours worked
 class TxtTimesheet
-
   def initialize
     @can_parse = false
   end
@@ -51,7 +51,7 @@ class TxtTimesheet
     while index < time.count
 
       sum_time = time_in_sec[index + 1] - time_in_sec[index] + sum_time
-      index +=2
+      index += 2
     end
     ###
     total_sec = sum_time
@@ -60,12 +60,12 @@ class TxtTimesheet
 
     {
       file_name: filename,
-      file_time: total_sec,
+      file_time: total_sec
       # phrase: phrase
     }
   end
 
-  def process_results(results=[])
+  def process_results(results = [])
     output = []
     total = []
     total_time = 0
