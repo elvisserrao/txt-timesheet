@@ -33,6 +33,10 @@ class TxtTimesheet
       line = content_file.gets.chomp
       set_can_parse(line)
 
+      if line.match(/^description:/)
+        phrase = line.split(':')[1]
+      end
+
       next unless can_parse?
 
       next unless time_regex.match(line)
@@ -49,12 +53,11 @@ class TxtTimesheet
     ###
     total_sec = sum_time
 
-    # phrase = 'xixixococo'
 
     {
       file_name: filename,
-      file_time: total_sec
-      # phrase: phrase
+      file_time: total_sec,
+      phrase: phrase
     }
   end
 
@@ -68,9 +71,9 @@ class TxtTimesheet
       file_name = result[:file_name]
       time_file = result[:file_time]
       total_time += time_file
-      # phrase = result[:phrase]
+      phrase = result[:phrase]
       time_file = Time.at(time_file).utc
-      output << "#{file_name}: #{time_file.strftime('%H:%M')} hours \n"
+      output << "#{file_name}: #{time_file.strftime('%H:%M')} hours -#{phrase}\n"
 
       # total_time = result[:file_time]
     end
