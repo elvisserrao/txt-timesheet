@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
 require 'time'
-# Treat past files as a parameter and calculate total hours worked
+# Treat passed files as parameters and calculates total hours worked
+
 class TxtTimesheet
   def initialize
     @can_parse = false
