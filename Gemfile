@@ -1,7 +1,12 @@
-source "https://rubygems.org"
+# frozen_string_literal: true
+
+source 'https://rubygems.org'
 
 # Specify your gem's dependencies in txt_timesheet.gemspec
 gemspec
 
-gem "rake", "~> 12.0"
-gem "rspec", "~> 3.0"
+group :development do
+  gem 'rake'
+  gem 'rspec'
+  gem 'rubocop-rspec'
+end
