@@ -8,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.authors       = ['Elvis Serrão']
   spec.email         = ['elvis.serrao1@gmail.com']
 
-  spec.summary       = 'Calculate Timesheet.'
-  spec.description   = 'Receive n files as command line parameters, parse these files and than, calculates how many hours has been worked .'
+  spec.summary       = 'Calculates Timesheet.'
+  spec.description   = 'Receive n files as command line parameters, parse these files and then, calculates how many hours has been worked.'
   spec.homepage      = 'https://elvisserrao.github.io/'
   spec.license       = 'MIT'
   spec.required_ruby_version = Gem::Requirement.new('>= 2.3.0')
