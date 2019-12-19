@@ -11,14 +11,6 @@ class TxtTimesheet
     @can_parse
   end
 
-  def convert(time_in_minutes)
-    ### Convert working time to hh:mm format
-    hours = time_in_minutes / 60
-    minutes = time_in_minutes - hours * 60
-    ## Add 0 to keep hh: mm format
-    "%02d:%02d" % [hours, minutes]
-  end
-
   def set_can_parse(line)
     if @can_parse
       @can_parse = false if line.start_with? '## '
@@ -77,14 +69,14 @@ class TxtTimesheet
       total_time += time_file
       # phrase = result[:phrase]
       time_file = Time.at(time_file).utc
-      output << "#{file_name}: #{time_file.strftime("%H:%M")} hours \n"
+      output << "#{file_name}: #{time_file.strftime('%H:%M')} hours \n"
 
       # total_time = result[:file_time]
     end
     total = total_time.divmod(3600)
     total[1] /= 60
     total[1] = total.last.to_i
-    output << "Total Hours: #{total.join(":")} hours\n"
+    output << format("Total Hours: %02d:%02d hours\n", total[0],total[1])
 
     output
   end
