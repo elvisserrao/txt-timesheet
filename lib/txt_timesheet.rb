@@ -53,7 +53,6 @@ class TxtTimesheet
     ###
     total_sec = sum_time
 
-
     {
       file_name: filename,
       file_time: total_sec,
@@ -73,7 +72,7 @@ class TxtTimesheet
       total_time += time_file
       phrase = result[:phrase]
       time_file = Time.at(time_file).utc
-      output << "#{file_name}: #{time_file.strftime('%H:%M')} hours -#{phrase}\n"
+      output << "#{file_name}: #{time_file.strftime('%H:%M')} hours -#{phrase}"
 
       # total_time = result[:file_time]
     end

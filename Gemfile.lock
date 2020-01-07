@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    txt_timesheet (1.1.11)
+    txt_timesheet (1.3.1)
 
 GEM
   remote: https://rubygems.org/
@@ -50,4 +50,4 @@ DEPENDENCIES
   txt_timesheet!
 
 BUNDLED WITH
-   2.1.0.pre.2
+   2.1.4
